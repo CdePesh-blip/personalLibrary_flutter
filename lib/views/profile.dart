@@ -28,7 +28,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
   Widget buildCoverImage() => Container(
     color: Colors.grey,
     child: Image.network(
-      'c:\\Users\\user\\Downloads\\anastasia-voronina-udL9Du3iIO4-unsplash.jpg',
+      'https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=500&auto=format&fit=crop&q=60',
       width: double.infinity,
       height: coverHeight,
       fit: BoxFit.cover,

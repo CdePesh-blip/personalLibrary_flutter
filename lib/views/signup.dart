@@ -1,7 +1,18 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:get/get_navigation/src/extension_navigation.dart';
 import 'package:personal_library/configs/colors.dart';
+
+import 'package:http/http.dart' as http;
+import 'package:personal_library/controllers/signupcontroller.dart';
+
+SignupController signupController = Get.http.put(Signupcontroller());
+TextEditingController fullname = TextEditingController();
+TextEditingController email = TextEditingController();
+TextEditingController password = TextEditingController();
+TextEditingController confirmPassword = TextEditingController();
 
 class SignupScreen extends StatefulWidget {
   const SignupScreen({super.key});
@@ -40,6 +51,7 @@ class _SignupScreenState extends State<SignupScreen> {
             ),
           ),
           TextField(
+            controller: fullname,
             decoration: InputDecoration(
               border: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(20),
@@ -63,6 +75,8 @@ class _SignupScreenState extends State<SignupScreen> {
             ),
           ),
           TextField(
+            controller: email,
+            keyboardType: TextInputType.emailAddress,
             decoration: InputDecoration(
               border: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(20),
@@ -79,13 +93,15 @@ class _SignupScreenState extends State<SignupScreen> {
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
                 Text(
-                  "Create Password",
+                  "Password",
                   style: TextStyle(fontSize: 10, fontWeight: FontWeight.w100),
                 ),
               ],
             ),
           ),
           TextField(
+            controller: password,
+            obscureText: signupController.isPasswordVisible.value,
             decoration: InputDecoration(
               border: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(20),
@@ -109,6 +125,8 @@ class _SignupScreenState extends State<SignupScreen> {
             ),
           ),
           TextField(
+            controller: confirmPassword,
+            obscureText: signupController.isPasswordVisible.value,
             decoration: InputDecoration(
               border: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(20),
@@ -128,7 +146,38 @@ class _SignupScreenState extends State<SignupScreen> {
               borderRadius: BorderRadius.circular(20),
             ),
             child: MaterialButton(
-              onPressed: () {},
+              onPressed: () async {
+                if (fullname.text.isEmpty) {
+                  Get.snackbar("Error", "Please enter first name");
+                } else if (email.text.isEmpty) {
+                  Get.snackbar("Error", "Please enter email name");
+                } else if (password.text.isEmpty ||
+                    passwordAgain.text.isEmpty ||
+                    password.text.toString().compareTo(
+                          passwordAgain.text.toString(),
+                        ) !=
+                        0) {
+                  Get.snackbar(
+                    "Error",
+                    "Password and Password confirmation be none empty and matching",
+                  );
+                } else {
+                  final response = await http.get(
+                    Uri.parse(
+                      "http://10.0.2.2/library_api/signup.php?username=${fullname.text} User&email=${email.text}@gmail.com&password=${password.text}&phone=${phone.text}",
+                    ),
+                  );
+                  if (response.statusCode == 200) {
+                    final serverData = jsonDecode(response.body);
+                    if (serverData['success'] == 1) {
+                      Get.snackbar("Success", "You are registered");
+                      Get.offAndToNamed("/");
+                    }
+                  } else {
+                    Get.snackbar("Registration", "Registration  Failed");
+                  }
+                }
+              },
               textColor: AppColors.primaryColor3,
               child: Text("Sign up", style: TextStyle(color: Colors.white)),
             ),

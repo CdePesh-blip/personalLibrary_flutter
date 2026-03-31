@@ -25,12 +25,19 @@ class _RRectanglePainterColor extends BoxPainter {
 
   @override
   void paint(Canvas canvas, Offset offset, ImageConfiguration cfg) {
-    final double hostHeight = cfg.size?.height ?? 0.0;
-    final Offset customOffset = offset + Offset(0, hostHeight - weight);
+    if (cfg.size == null) return;
+    final double hostHeight = cfg.size!.height;
+    final double hostWidth = cfg.size!.width;
+    final double xOffset = offset.dx + (hostWidth / 2) - (width / 2);
 
-    Rect rect = customOffset & Size(width, weight);
+    final Offset customOffset = Offset(xOffset, hostHeight - weight);
 
-    RRect myRRect = RRect.fromRectXY(rect, weight, weight);
+    final Rect rect = customOffset & Size(width, weight);
+
+    final RRect myRRect = RRect.fromRectAndRadius(
+      rect,
+      Radius.circular(weight),
+    );
 
     canvas.drawRRect(myRRect, _paint);
   }
