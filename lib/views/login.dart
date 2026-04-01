@@ -130,7 +130,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   } else {
                     final response = await http.get(
                       Uri.parse(
-                        "http://10.0.2.2/library_api/login.php?phone=${phone.text}&password=${password.text}",
+                        "http://10.0.2.2/library_api/login.php?phone=${username.text}&password=${password.text}",
                       ),
                     );
                     if (response.statusCode == 200) {

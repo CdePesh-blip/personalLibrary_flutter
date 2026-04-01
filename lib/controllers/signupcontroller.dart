@@ -1,18 +1,25 @@
 import 'package:get/get.dart';
-import 'package:get/state_manager.dart';
 
 class Signupcontroller extends GetxController {
   late String fullname;
   late String email;
+  late String phone;
   late String password;
   late String confirmPassword;
 
   var isPasswordVisible = false.obs;
   var isConfirmPasswordVisible = false.obs;
 
-  bool signup(String name, String mail, String pass, String confirm) {
+  bool signup(
+    String name,
+    String mail,
+    String phone,
+    String pass,
+    String confirm,
+  ) {
     fullname = name;
-    email = name;
+    email = mail;
+    phone = phone;
     password = pass;
     confirmPassword = confirm;
 

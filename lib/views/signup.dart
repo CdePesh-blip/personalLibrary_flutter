@@ -2,15 +2,17 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:get/get_core/src/get_main.dart';
+import 'package:get/get_instance/src/extension_instance.dart';
 import 'package:get/get_navigation/src/extension_navigation.dart';
 import 'package:personal_library/configs/colors.dart';
 
 import 'package:http/http.dart' as http;
 import 'package:personal_library/controllers/signupcontroller.dart';
 
-SignupController signupController = Get.http.put(Signupcontroller());
+Signupcontroller signupController = Get.put(Signupcontroller());
 TextEditingController fullname = TextEditingController();
 TextEditingController email = TextEditingController();
+TextEditingController phone = TextEditingController();
 TextEditingController password = TextEditingController();
 TextEditingController confirmPassword = TextEditingController();
 
@@ -93,6 +95,31 @@ class _SignupScreenState extends State<SignupScreen> {
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
                 Text(
+                  "Enter Phone ",
+                  style: TextStyle(fontSize: 10, fontWeight: FontWeight.w100),
+                ),
+              ],
+            ),
+          ),
+          TextField(
+            controller: phone,
+            keyboardType: TextInputType.emailAddress,
+            decoration: InputDecoration(
+              border: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(20),
+              ),
+              hintText: "Enter your phone number",
+              hintStyle: TextStyle(fontSize: 10),
+              prefixIcon: Icon(Icons.phone),
+            ),
+          ),
+          SizedBox(height: 20),
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                Text(
                   "Password",
                   style: TextStyle(fontSize: 10, fontWeight: FontWeight.w100),
                 ),
@@ -152,9 +179,9 @@ class _SignupScreenState extends State<SignupScreen> {
                 } else if (email.text.isEmpty) {
                   Get.snackbar("Error", "Please enter email name");
                 } else if (password.text.isEmpty ||
-                    passwordAgain.text.isEmpty ||
+                    confirmPassword.text.isEmpty ||
                     password.text.toString().compareTo(
-                          passwordAgain.text.toString(),
+                          confirmPassword.text.toString(),
                         ) !=
                         0) {
                   Get.snackbar(
