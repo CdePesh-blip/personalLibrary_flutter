@@ -11,6 +11,8 @@ class AppColors {
   static const secondaryColor2 = Color(0xFF27b8ae);
   static const secondaryColor3 = Color(0xFF45b57f);
   static const secondaryColor4 = Color(0xFFdcdfe0);
+  static const selectedScreenBackground = Color(0xFFf0ecc0);
+  static const bookColor = Color(0xFF41221F);
 
   static const loginBackground = Color(0xFFe8aedd);
 }
