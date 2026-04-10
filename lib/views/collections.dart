@@ -29,21 +29,33 @@ class _CollectionsState extends State<Collections> {
   }
 
   void fetchBooks() async {
-    var response = await http.get(Uri.parse(""));
-    if (response.statusCode == 200) {
-      var serverData = jsonDecode(response.body);
-      var bookData = serverData["data"];
+    try {
+      var response = await http.get(
+        Uri.parse("http://10.0.2.2/library_api/books.php"),
+      );
+      if (response.statusCode == 200) {
+        var serverData = jsonDecode(response.body);
+        var bookData = serverData["data"];
 
-      for (var book in bookData) {
-        myBookNames.add(
-          CollectionModel(book["name"], book["author"], book["image"]),
-        );
+        for (var book in bookData) {
+          myBookNames.add(
+            CollectionModel(book["name"], book["author"], book["image"]),
+          );
+        }
+        setState(() {
+          loaded = true;
+        });
+      } else {
+        Get.snackbar("Error", "Server Error: ${response.statusCode}");
+        setState(() {
+          loaded = true;
+        });
       }
+    } catch (e) {
+      Get.snackbar("Error", "Failed to load books: $e");
       setState(() {
         loaded = true;
       });
-    } else {
-      Get.snackbar("Error", "Server Error");
     }
   }
 
@@ -57,7 +69,7 @@ class _CollectionsState extends State<Collections> {
               return Row(
                 children: [
                   Image.network(
-                    "https://localhost/library_api/Book_images/" +
+                    "http://10.0.2.2/library_api/Book_images/" +
                         myBookNames[index].image,
                     width: 100,
                     height: 100,

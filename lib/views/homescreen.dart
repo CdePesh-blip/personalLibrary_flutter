@@ -2,8 +2,10 @@ import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:personal_library/configs/colors.dart';
+import 'package:personal_library/controllers/newbookcontroller.dart';
 import 'package:personal_library/models/new_book_model.dart';
 import 'package:personal_library/views/selected_book_screen.dart';
 import 'package:personal_library/widget/custom_type_indicator.dart';
@@ -16,11 +18,14 @@ class Homescreen extends StatefulWidget {
 }
 
 class _HomescreenState extends State<Homescreen> {
+  final controller = Get.put(NewBookController());
+
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
       length: 3,
       child: Scaffold(
+        backgroundColor: AppColors.homeBackground,
         // ignore: avoid_unnecessary_containers
         body: SafeArea(
           child: Container(
@@ -149,31 +154,41 @@ class _HomescreenState extends State<Homescreen> {
                 Container(
                   margin: EdgeInsets.only(top: 21),
                   height: 210,
-                  child: ListView.builder(
-                    padding: EdgeInsets.only(left: 25, right: 6),
-                    itemCount: newBooks.length,
-                    physics: BouncingScrollPhysics(),
-                    scrollDirection: Axis.horizontal,
-                    itemBuilder: (context, index) {
-                      return GestureDetector(
-                        onTap: () {
-                          print("Listview tapped");
-                        },
-                        child: Container(
-                          margin: EdgeInsets.only(right: 19),
-                          height: 210,
-                          width: 153,
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(10),
-                            color: Colors.black12,
-                            image: DecorationImage(
-                              image: AssetImage(newBooks[index].image),
+                  child: Obx(() {
+                    if (controller.isLoading.value) {
+                      return Center(child: CircularProgressIndicator());
+                    }
+                    return ListView.builder(
+                      padding: EdgeInsets.only(left: 25, right: 6),
+                      itemCount: controller.newBooks.length,
+                      physics: BouncingScrollPhysics(),
+                      scrollDirection: Axis.horizontal,
+                      itemBuilder: (context, index) {
+                        var book = controller.newBooks[index];
+                        return GestureDetector(
+                          onTap: () {
+                            print("${book.title} tapped");
+                          },
+                          child: Container(
+                            margin: EdgeInsets.only(right: 19),
+                            height: 210,
+                            width: 153,
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(10),
+                              color: Colors.black12,
+                              image: DecorationImage(
+                                image: NetworkImage(
+                                  "http://10.0.2.2/library_api/Book_images/" +
+                                      book.image,
+                                ),
+                                fit: BoxFit.cover,
+                              ),
                             ),
                           ),
-                        ),
-                      );
-                    },
-                  ),
+                        );
+                      },
+                    );
+                  }),
                 ),
                 Padding(
                   padding: EdgeInsets.only(left: 25, top: 25),
@@ -263,12 +278,19 @@ class _HomescreenState extends State<Homescreen> {
         bottomNavigationBar: CurvedNavigationBar(
           backgroundColor: Colors.blueAccent,
           items: <Widget>[
-            Icon(Icons.add, size: 30),
+            Icon(Icons.home, size: 30, color: Colors.black),
             Icon(Icons.list, size: 30),
-            Icon(Icons.compare_arrows, size: 30),
+            Icon(Icons.person, size: 30),
           ],
           onTap: (index) {
             //Handle button tap
+            if (index == 0) {
+              Navigator.pushNamed(context, '/');
+            } else if (index == 1) {
+              Navigator.pushNamed(context, '/collections');
+            } else if (index == 2) {
+              Navigator.pushNamed(context, '/profile');
+            }
           },
         ),
       ),

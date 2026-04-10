@@ -191,7 +191,7 @@ class SelectedBookScreen extends StatelessWidget {
                 Padding(
                   padding: EdgeInsets.only(left: 25, right: 25, bottom: 25),
                   child: Text(
-                    "This book tells the story of Obvious Adams, who started his career working in a grocery store and later became a famous advertising executive. It describes how as a young man, Adams was inspired by a talk from advertising executive James Oswald and boldly went to Oswald's office seeking a job, though Oswald initially doubted Adams' potential; however, Adams persevered and ultimately found success in advertising.",
+                    popularNewBookModel.description,
                     style: GoogleFonts.openSans(
                       fontSize: 12,
                       fontWeight: FontWeight.w400,

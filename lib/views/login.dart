@@ -26,7 +26,7 @@ class _LoginScreenState extends State<LoginScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: AppColors.loginBackground,
+      //backgroundColor: AppColors.loginBackground,
       /*appBar: AppBar(
           backgroundColor: Colors.pinkAccent,
           title: Text(
@@ -35,165 +35,180 @@ class _LoginScreenState extends State<LoginScreen> {
           ),
           centerTitle: true,
         ),*/
-      body: Padding(
-        padding: const EdgeInsets.all(15.0),
-        child: SingleChildScrollView(
-          child: Column(
-            //mainAxisAlignment: MainAxisAlignment.center,
-            //crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              Image.asset('assets/images/app.png', height: 100, width: 150),
-              /*
-                Text(
-                  "Login Screen",
-                  style: TextStyle(fontSize: 40, fontWeight: FontWeight.w700),
+      body: Container(
+        width: double.infinity,
+        height: double.infinity,
+        decoration: const BoxDecoration(
+          gradient: LinearGradient(
+            begin: Alignment.topCenter,
+            end: Alignment.bottomCenter,
+            colors: [Color(0xFFefc6f5), Color(0xFFbb84c2), Color(0xFF945c9c)],
+          ),
+        ),
+        child: Padding(
+          padding: const EdgeInsets.all(15.0),
+          child: SingleChildScrollView(
+            child: Column(
+              //mainAxisAlignment: MainAxisAlignment.center,
+              //crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Image.asset(
+                  'assets/images/book_logo.jpg',
+                  height: 100,
+                  width: 150,
                 ),
-                */
-              SizedBox(height: 20),
-              Padding(
-                padding: const EdgeInsets.fromLTRB(10, 0, 0, 0),
-                child: Row(
-                  children: [
-                    Text(
-                      "Enter username",
-                      style: TextStyle(
-                        fontSize: 15,
-                        fontWeight: FontWeight.w700,
+                /*
+                  Text(
+                    "Login Screen",
+                    style: TextStyle(fontSize: 40, fontWeight: FontWeight.w700),
+                  ),
+                  */
+                SizedBox(height: 20),
+                Padding(
+                  padding: const EdgeInsets.all(15),
+                  child: Row(
+                    children: [
+                      Text(
+                        "Enter username",
+                        style: TextStyle(
+                          fontSize: 15,
+                          fontWeight: FontWeight.w700,
+                        ),
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
-              ),
-              TextField(
-                controller: email,
-                decoration: InputDecoration(
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(20),
-                  ), //makes the edges softer
-                  hintText: "Use email or phone number",
-                  prefixIcon: Icon(Icons.person), //desplays the icins
-                ),
-              ),
-              SizedBox(height: 30),
-              Padding(
-                padding: const EdgeInsets.fromLTRB(
-                  10,
-                  0,
-                  0,
-                  0,
-                ), //applies padding to all sides
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: [
-                    Text(
-                      "Enter Password",
-                      style: TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.w700,
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-              SizedBox(height: 10),
-              Obx(
-                () => TextField(
-                  controller: password,
-                  obscureText: !logincontroller.isPasswordVisible.value,
+                TextField(
+                  controller: email,
                   decoration: InputDecoration(
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(20),
-                    ),
-                    hintText: "Enter password here",
-                    prefixIcon: Icon(Icons.password),
-                    suffixIcon: IconButton(
-                      icon: Icon(
-                        logincontroller.isPasswordVisible.value
-                            ? Icons.visibility
-                            : Icons.visibility_off,
+                    ), //makes the edges softer
+                    hintText: "Use email or phone number",
+                    prefixIcon: Icon(Icons.person), //desplays the icins
+                  ),
+                ),
+                SizedBox(height: 30),
+                Padding(
+                  padding: const EdgeInsets.fromLTRB(
+                    10,
+                    0,
+                    0,
+                    0,
+                  ), //applies padding to all sides
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      Text(
+                        "Enter Password",
+                        style: TextStyle(
+                          fontSize: 16,
+                          fontWeight: FontWeight.w700,
+                        ),
                       ),
-                      onPressed: () {
-                        logincontroller.togglePassword();
-                      },
+                    ],
+                  ),
+                ),
+                SizedBox(height: 10),
+                Obx(
+                  () => TextField(
+                    controller: password,
+                    obscureText: !logincontroller.isPasswordVisible.value,
+                    decoration: InputDecoration(
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(20),
+                      ),
+                      hintText: "Enter password here",
+                      prefixIcon: Icon(Icons.password),
+                      suffixIcon: IconButton(
+                        icon: Icon(
+                          logincontroller.isPasswordVisible.value
+                              ? Icons.visibility
+                              : Icons.visibility_off,
+                        ),
+                        onPressed: () {
+                          logincontroller.togglePassword();
+                        },
+                      ),
                     ),
                   ),
                 ),
-              ),
 
-              SizedBox(height: 30),
-              MaterialButton(
-                onPressed: () async {
-                  if (username.text.isEmpty) {
-                    Get.snackbar("Error", "Enter username");
-                  } else if (password.text.isEmpty) {
-                    Get.snackbar("Error", "Enter password");
-                  } else {
-                    final response = await http.get(
-                      Uri.parse(
-                        "http://10.0.2.2/library_api/login.php?phone=${username.text}&password=${password.text}",
-                      ),
-                    );
-                    if (response.statusCode == 200) {
-                      final serverData = jsonDecode(response.body);
-                      if (serverData['code'] == 1) {
-                        String phone = serverData["userdetails"][0]["phone"];
-                        print(phone); //store in shared preferences
-                        Get.toNamed('/homescreen');
+                SizedBox(height: 30),
+                MaterialButton(
+                  onPressed: () async {
+                    if (username.text.isEmpty) {
+                      Get.snackbar("Error", "Enter username");
+                    } else if (password.text.isEmpty) {
+                      Get.snackbar("Error", "Enter password");
+                    } else {
+                      final response = await http.get(
+                        Uri.parse(
+                          "http://10.0.2.2/library_api/login.php?phone=${username.text}&password=${password.text}",
+                        ),
+                      );
+                      if (response.statusCode == 200) {
+                        final serverData = jsonDecode(response.body);
+                        if (serverData['code'] == 1) {
+                          String phone = serverData["userdetails"][0]["phone"];
+                          print(phone); //store in shared preferences
+                          Get.toNamed('/homescreen');
+                        } else {
+                          Get.snackbar(
+                            "Wrong Credentials",
+                            serverData["message"],
+                          );
+                        }
                       } else {
                         Get.snackbar(
-                          "Wrong Credentials",
-                          serverData["message"],
+                          "Server Error",
+                          "Error occured while logging in",
                         );
                       }
-                    } else {
-                      Get.snackbar(
-                        "Server Error",
-                        "Error occured while logging in",
-                      );
                     }
-                  }
-                },
-              ), // we must specify what this butoon does when it is pressed. () for no name
-              Container(
-                height: 50,
-                alignment: Alignment.center,
-                decoration: BoxDecoration(
-                  color: AppColors.primaryColor3,
-                  borderRadius: BorderRadius.circular(20),
-                ),
-                child: GestureDetector(
-                  child: Text(
-                    "Login",
-                    style: TextStyle(color: Colors.white, fontSize: 15),
-                  ),
-                  onTap: () {
-                    Get.offAndToNamed("/homescreen");
                   },
-                ),
-              ),
-              Padding(
-                padding: const EdgeInsets.fromLTRB(10, 5, 10, 0),
-                child: Row(
-                  children: [
-                    Text("Don't have an account?"),
-                    SizedBox(width: 5),
-                    GestureDetector(
-                      child: Text(
-                        "Sign up",
-                        style: TextStyle(color: Colors.pinkAccent),
-                      ),
-                      onTap: () {
-                        Get.toNamed("/signup");
-                      },
+                ), // we must specify what this butoon does when it is pressed. () for no name
+                Container(
+                  height: 50,
+                  alignment: Alignment.center,
+                  decoration: BoxDecoration(
+                    color: AppColors.primaryColor3,
+                    borderRadius: BorderRadius.circular(20),
+                  ),
+                  child: GestureDetector(
+                    child: Text(
+                      "Login",
+                      style: TextStyle(color: Colors.white, fontSize: 15),
                     ),
-                    Spacer(),
-                    Text("Forgot password?"),
-                    SizedBox(width: 5),
-                    Text("Reset", style: TextStyle(color: Colors.pinkAccent)),
-                  ],
+                    onTap: () {
+                      Get.offAndToNamed("/homescreen");
+                    },
+                  ),
                 ),
-              ),
-            ],
+                Padding(
+                  padding: const EdgeInsets.fromLTRB(10, 5, 10, 0),
+                  child: Row(
+                    children: [
+                      Text("Don't have an account?"),
+                      SizedBox(width: 5),
+                      GestureDetector(
+                        child: Text(
+                          "Sign up",
+                          style: TextStyle(color: Colors.pinkAccent),
+                        ),
+                        onTap: () {
+                          Get.toNamed("/signup");
+                        },
+                      ),
+                      Spacer(),
+                      Text("Forgot password?"),
+                      SizedBox(width: 5),
+                      Text("Reset", style: TextStyle(color: Colors.pinkAccent)),
+                    ],
+                  ),
+                ),
+              ],
+            ),
           ),
         ),
       ),

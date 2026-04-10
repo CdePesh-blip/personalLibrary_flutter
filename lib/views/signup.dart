@@ -27,7 +27,7 @@ class _SignupScreenState extends State<SignupScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: AppColors.homeBackground,
       // appBar: AppBar(
       //   backgroundColor: AppColors.primaryColor2,
       //   title: Text(
@@ -39,7 +39,7 @@ class _SignupScreenState extends State<SignupScreen> {
       body: Column(
         children: [
           Padding(
-            padding: const EdgeInsets.all(8.0),
+            padding: const EdgeInsets.all(10.0),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
@@ -47,7 +47,7 @@ class _SignupScreenState extends State<SignupScreen> {
                 //SizedBox(height: 20),
                 Text(
                   "Full Name",
-                  style: TextStyle(fontSize: 10, fontWeight: FontWeight.w100),
+                  style: TextStyle(fontSize: 10, fontWeight: FontWeight.bold),
                 ),
               ],
             ),
@@ -59,19 +59,19 @@ class _SignupScreenState extends State<SignupScreen> {
                 borderRadius: BorderRadius.circular(20),
               ),
               hintText: "Enter your full name",
-              hintStyle: TextStyle(fontWeight: FontWeight.bold),
+              hintStyle: TextStyle(fontSize: 10),
               prefixIcon: Icon(Icons.person),
             ),
           ),
           SizedBox(height: 20),
           Padding(
-            padding: const EdgeInsets.all(8.0),
+            padding: const EdgeInsets.all(10.0),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
                 Text(
                   "Email",
-                  style: TextStyle(fontSize: 10, fontWeight: FontWeight.w100),
+                  style: TextStyle(fontSize: 10, fontWeight: FontWeight.bold),
                 ),
               ],
             ),
@@ -90,13 +90,13 @@ class _SignupScreenState extends State<SignupScreen> {
           ),
           SizedBox(height: 20),
           Padding(
-            padding: const EdgeInsets.all(8.0),
+            padding: const EdgeInsets.all(10.0),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
                 Text(
                   "Enter Phone ",
-                  style: TextStyle(fontSize: 10, fontWeight: FontWeight.w100),
+                  style: TextStyle(fontSize: 10, fontWeight: FontWeight.bold),
                 ),
               ],
             ),
@@ -115,13 +115,13 @@ class _SignupScreenState extends State<SignupScreen> {
           ),
           SizedBox(height: 20),
           Padding(
-            padding: const EdgeInsets.all(8.0),
+            padding: const EdgeInsets.all(10.0),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
                 Text(
                   "Password",
-                  style: TextStyle(fontSize: 10, fontWeight: FontWeight.w100),
+                  style: TextStyle(fontSize: 10, fontWeight: FontWeight.bold),
                 ),
               ],
             ),
@@ -140,13 +140,13 @@ class _SignupScreenState extends State<SignupScreen> {
             ),
           ),
           Padding(
-            padding: const EdgeInsets.all(8.0),
+            padding: const EdgeInsets.all(10.0),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
                 Text(
                   "Confirm Password",
-                  style: TextStyle(fontSize: 10, fontWeight: FontWeight.w100),
+                  style: TextStyle(fontSize: 10, fontWeight: FontWeight.bold),
                 ),
               ],
             ),
