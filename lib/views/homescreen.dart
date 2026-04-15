@@ -6,7 +6,6 @@ import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:personal_library/configs/colors.dart';
 import 'package:personal_library/controllers/newbookcontroller.dart';
-import 'package:personal_library/models/new_book_model.dart';
 import 'package:personal_library/views/selected_book_screen.dart';
 import 'package:personal_library/widget/custom_type_indicator.dart';
 
@@ -107,88 +106,162 @@ class _HomescreenState extends State<Homescreen> {
                   height: 25,
                   margin: EdgeInsets.only(top: 30),
                   padding: EdgeInsets.only(left: 25),
-                  child: DefaultTabController(
-                    length: 3,
-                    child: TabBar(
-                      labelPadding: EdgeInsets.all(0),
-                      indicatorPadding: EdgeInsets.all(0),
-                      isScrollable: true,
-                      labelColor: Colors.black,
-                      unselectedLabelColor: Colors.grey,
-                      labelStyle: GoogleFonts.openSans(
-                        fontSize: 14,
-                        fontWeight: FontWeight.w700,
-                      ),
-                      unselectedLabelStyle: GoogleFonts.openSans(
-                        fontSize: 14,
-                        fontWeight: FontWeight.w600,
-                      ),
-                      indicator: RoundedRectangleTabIndicator(
-                        weight: 2,
-                        width: 10,
-                        color: Colors.black,
-                      ),
-                      tabs: [
-                        Tab(
-                          child: Container(
-                            margin: EdgeInsets.only(right: 23),
-                            child: Text('New'),
-                          ),
-                        ),
-                        Tab(
-                          child: Container(
-                            margin: EdgeInsets.only(right: 23),
-                            child: Text('In progress'),
-                          ),
-                        ),
-                        Tab(
-                          child: Container(
-                            margin: EdgeInsets.only(right: 23),
-                            child: Text('Read'),
-                          ),
-                        ),
-                      ],
+                  child: TabBar(
+                    labelPadding: EdgeInsets.all(0),
+                    indicatorPadding: EdgeInsets.all(0),
+                    isScrollable: true,
+                    labelColor: Colors.black,
+                    unselectedLabelColor: Colors.grey,
+                    labelStyle: GoogleFonts.openSans(
+                      fontSize: 14,
+                      fontWeight: FontWeight.w700,
                     ),
+                    unselectedLabelStyle: GoogleFonts.openSans(
+                      fontSize: 14,
+                      fontWeight: FontWeight.w600,
+                    ),
+                    indicator: RoundedRectangleTabIndicator(
+                      weight: 2,
+                      width: 10,
+                      color: Colors.black,
+                    ),
+                    tabs: [
+                      Tab(
+                        child: Container(
+                          margin: EdgeInsets.only(right: 23),
+                          child: Text('New'),
+                        ),
+                      ),
+                      Tab(
+                        child: Container(
+                          margin: EdgeInsets.only(right: 23),
+                          child: Text('In progress'),
+                        ),
+                      ),
+                      Tab(
+                        child: Container(
+                          margin: EdgeInsets.only(right: 23),
+                          child: Text('Read'),
+                        ),
+                      ),
+                    ],
                   ),
                 ),
                 Container(
                   margin: EdgeInsets.only(top: 21),
                   height: 210,
-                  child: Obx(() {
-                    if (controller.isLoading.value) {
-                      return Center(child: CircularProgressIndicator());
-                    }
-                    return ListView.builder(
-                      padding: EdgeInsets.only(left: 25, right: 6),
-                      itemCount: controller.newBooks.length,
-                      physics: BouncingScrollPhysics(),
-                      scrollDirection: Axis.horizontal,
-                      itemBuilder: (context, index) {
-                        var book = controller.newBooks[index];
-                        return GestureDetector(
-                          onTap: () {
-                            print("${book.title} tapped");
-                          },
-                          child: Container(
-                            margin: EdgeInsets.only(right: 19),
-                            height: 210,
-                            width: 153,
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(10),
-                              color: Colors.black12,
-                              image: DecorationImage(
-                                image: NetworkImage(
-                                  "http://10.0.2.2/library_api/Book_images/" +
-                                      book.image,
+                  child: TabBarView(
+                    children: [
+                      // New Books Tab
+                      Obx(() {
+                        if (controller.isLoading.value) {
+                          return Center(child: CircularProgressIndicator());
+                        }
+                        return ListView.builder(
+                          padding: EdgeInsets.only(left: 25, right: 6),
+                          itemCount: controller.newBooks.length,
+                          physics: BouncingScrollPhysics(),
+                          scrollDirection: Axis.horizontal,
+                          itemBuilder: (context, index) {
+                            var book = controller.newBooks[index];
+                            return GestureDetector(
+                              onTap: () {
+                                print("${book.fullname} tapped");
+                              },
+                              child: Container(
+                                margin: EdgeInsets.only(right: 19),
+                                height: 210,
+                                width: 153,
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(10),
+                                  color: Colors.black12,
+                                  image: DecorationImage(
+                                    image: NetworkImage(
+                                      "http://localhost/library_api/Book_images/" +
+                                          book.image,
+                                    ),
+                                    fit: BoxFit.cover,
+                                  ),
                                 ),
-                                fit: BoxFit.cover,
                               ),
-                            ),
-                          ),
+                            );
+                          },
                         );
-                      },
-                    );
-                  }),
+                      }),
+                      // In Progress Books Tab
+                      Obx(() {
+                        if (controller.isLoading.value) {
+                          return Center(child: CircularProgressIndicator());
+                        }
+                        return ListView.builder(
+                          padding: EdgeInsets.only(left: 25, right: 6),
+                          itemCount: controller.inProgressBooks.length,
+                          physics: BouncingScrollPhysics(),
+                          scrollDirection: Axis.horizontal,
+                          itemBuilder: (context, index) {
+                            var book = controller.inProgressBooks[index];
+                            return GestureDetector(
+                              onTap: () {
+                                print("${book.fullname} tapped");
+                              },
+                              child: Container(
+                                margin: EdgeInsets.only(right: 19),
+                                height: 210,
+                                width: 153,
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(10),
+                                  color: Colors.black12,
+                                  image: DecorationImage(
+                                    image: NetworkImage(
+                                      "http://localhost/library_api/Book_images/" +
+                                          book.image,
+                                    ),
+                                    fit: BoxFit.cover,
+                                  ),
+                                ),
+                              ),
+                            );
+                          },
+                        );
+                      }),
+                      // Read Books Tab
+                      Obx(() {
+                        if (controller.isLoading.value) {
+                          return Center(child: CircularProgressIndicator());
+                        }
+                        return ListView.builder(
+                          padding: EdgeInsets.only(left: 25, right: 6),
+                          itemCount: controller.readBooks.length,
+                          physics: BouncingScrollPhysics(),
+                          scrollDirection: Axis.horizontal,
+                          itemBuilder: (context, index) {
+                            var book = controller.readBooks[index];
+                            return GestureDetector(
+                              onTap: () {
+                                print("${book.fullname} tapped");
+                              },
+                              child: Container(
+                                margin: EdgeInsets.only(right: 19),
+                                height: 210,
+                                width: 153,
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(10),
+                                  color: Colors.black12,
+                                  image: DecorationImage(
+                                    image: NetworkImage(
+                                      "http://localhost/library_api/Book_images/" +
+                                          book.image,
+                                    ),
+                                    fit: BoxFit.cover,
+                                  ),
+                                ),
+                              ),
+                            );
+                          },
+                        );
+                      }),
+                    ],
+                  ),
                 ),
                 Padding(
                   padding: EdgeInsets.only(left: 25, top: 25),
@@ -201,76 +274,80 @@ class _HomescreenState extends State<Homescreen> {
                     ),
                   ),
                 ),
-                ListView.builder(
-                  padding: EdgeInsets.only(top: 25, left: 25, right: 25),
-                  physics: BouncingScrollPhysics(),
-                  shrinkWrap: true,
-                  itemCount: populars.length,
-                  itemBuilder: (context, index) {
-                    return GestureDetector(
-                      onTap: () {
-                        // ignore: avoid_print
-
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => SelectedBookScreen(
-                              key: UniqueKey(),
-                              popularNewBookModel: populars[index],
-                            ),
-                          ),
-                        );
-                      },
-                      child: Container(
-                        margin: EdgeInsets.only(bottom: 18),
-                        height: 81,
-                        width: MediaQuery.of(context).size.width - 50,
-                        color: Colors.white,
-                        child: Row(
-                          children: <Widget>[
-                            Container(
-                              height: 81,
-                              width: 62,
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(5),
-                                image: DecorationImage(
-                                  image: AssetImage(populars[index].image),
-                                ),
-                                color: Colors.black,
+                Obx(() {
+                  return ListView.builder(
+                    padding: EdgeInsets.only(top: 25, left: 25, right: 25),
+                    physics: BouncingScrollPhysics(),
+                    shrinkWrap: true,
+                    itemCount: controller.populars.length,
+                    itemBuilder: (context, index) {
+                      var book = controller.populars[index];
+                      return GestureDetector(
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => SelectedBookScreen(
+                                key: UniqueKey(),
+                                popularNewBookModel: book,
                               ),
                             ),
-                            SizedBox(width: 21),
-                            Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  populars[index].title,
-                                  style: GoogleFonts.openSans(
-                                    fontSize: 16,
-                                    fontWeight: FontWeight.w600,
-                                    color: Colors.black,
+                          );
+                        },
+                        child: Container(
+                          margin: EdgeInsets.only(bottom: 18),
+                          height: 81,
+                          width: MediaQuery.of(context).size.width - 50,
+                          color: Colors.white,
+                          child: Row(
+                            children: <Widget>[
+                              Container(
+                                height: 81,
+                                width: 62,
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(5),
+                                  image: DecorationImage(
+                                    image: NetworkImage(
+                                      "http://localhost/library_api/Book_images/" +
+                                          book.image,
+                                    ),
+                                    fit: BoxFit.cover,
                                   ),
+                                  color: Colors.black,
                                 ),
-                                SizedBox(height: 5),
-                                Text(
-                                  populars[index].author,
-                                  style: GoogleFonts.openSans(
-                                    fontSize: 10,
-                                    fontWeight: FontWeight.w400,
-                                    color: Colors.grey,
+                              ),
+                              SizedBox(width: 21),
+                              Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    book.fullname,
+                                    style: GoogleFonts.openSans(
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.w600,
+                                      color: Colors.black,
+                                    ),
                                   ),
-                                ),
-                                SizedBox(height: 5),
-                                //Text(populars[index].progress)
-                              ],
-                            ),
-                          ],
+                                  SizedBox(height: 5),
+                                  Text(
+                                    book.author,
+                                    style: GoogleFonts.openSans(
+                                      fontSize: 10,
+                                      fontWeight: FontWeight.w400,
+                                      color: Colors.grey,
+                                    ),
+                                  ),
+                                  SizedBox(height: 5),
+                                ],
+                              ),
+                            ],
+                          ),
                         ),
-                      ),
-                    );
-                  },
-                ),
+                      );
+                    },
+                  );
+                }),
               ],
             ),
           ),

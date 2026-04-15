@@ -1,7 +1,7 @@
 class CollectionModel {
-  String name;
+  String fullname;
   String author;
   String image;
 
-  CollectionModel(this.name, this.author, this.image);
+  CollectionModel(this.fullname, this.author, this.image);
 }

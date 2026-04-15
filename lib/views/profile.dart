@@ -5,7 +5,7 @@ class ProfileScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: AppColors.purpleMiddle, // Dark earthy background
+      backgroundColor: AppColors.brownColor, // Dark earthy background
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 25.0),
@@ -47,23 +47,23 @@ class ProfileScreen extends StatelessWidget {
                     const Text(
                       'Peshy',
                       style: TextStyle(
-                        color: Colors.grey,
-                        fontSize: 22,
+                        color: Colors.black,
+                        fontSize: 20,
                         fontWeight: FontWeight.bold,
                       ),
                     ),
                     const Text(
                       'pshaly@gmail.com',
-                      style: TextStyle(color: Colors.white70, fontSize: 14),
+                      style: TextStyle(color: Colors.grey, fontSize: 14),
                     ),
                     const SizedBox(height: 15),
                     const Text(
                       'About me:',
-                      style: TextStyle(color: Colors.white60, fontSize: 14),
+                      style: TextStyle(color: Colors.black, fontSize: 14),
                     ),
                     const Text(
                       'A fan of novels',
-                      style: TextStyle(color: Colors.white, fontSize: 16),
+                      style: TextStyle(color: Colors.grey, fontSize: 16),
                     ),
                     const SizedBox(height: 25),
                     // Edit Profile Button
@@ -81,7 +81,7 @@ class ProfileScreen extends StatelessWidget {
                         child: const Text(
                           'Edit profile',
                           style: TextStyle(
-                            color: Color(0xFF2D241E),
+                            color: Color(0xFF694f27),
                             fontSize: 18,
                           ),
                         ),

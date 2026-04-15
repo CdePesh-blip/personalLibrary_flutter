@@ -7,6 +7,8 @@ class AppColors {
   static const primaryColor4 = Color(0xFFe650b6);
   static const purpleMiddle = Color(0xFF963b86);
   static const homeBackground = Color(0xFFf7eaba);
+  static const lightPurple = Color(0xFF875c8a);
+  static const gentlePurple = Color(0xFFc7a3c9);
 
   static const secondaryColor = Color(0xFF59b3b0);
   static const secondaryColor2 = Color(0xFF27b8ae);
@@ -14,6 +16,7 @@ class AppColors {
   static const secondaryColor4 = Color(0xFFdcdfe0);
   static const selectedScreenBackground = Color(0xFFf0ecc0);
   static const bookColor = Color(0xFF41221F);
+  static const brownColor = Color(0xFFebcea0);
 
   static const loginBackground = Color(0xFFe8aedd);
 }

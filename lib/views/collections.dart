@@ -31,7 +31,7 @@ class _CollectionsState extends State<Collections> {
   void fetchBooks() async {
     try {
       var response = await http.get(
-        Uri.parse("http://10.0.2.2/library_api/books.php"),
+        Uri.parse("http://localhost/library_api/read_books.php"),
       );
       if (response.statusCode == 200) {
         var serverData = jsonDecode(response.body);
@@ -39,7 +39,7 @@ class _CollectionsState extends State<Collections> {
 
         for (var book in bookData) {
           myBookNames.add(
-            CollectionModel(book["name"], book["author"], book["image"]),
+            CollectionModel(book["fullname"], book["author"], book["image"]),
           );
         }
         setState(() {
@@ -61,9 +61,14 @@ class _CollectionsState extends State<Collections> {
 
   @override
   Widget build(BuildContext context) {
-    return loaded
+    return !loaded
         ? // to ask if data is loaded
-          ListView.builder(
+          const Center(
+            child: CircularProgressIndicator(),
+          ) // Shows a spinner while loading
+        : myBookNames.isEmpty
+        ? const Center(child: Text("Your collection is empty"))
+        : ListView.builder(
             itemCount: myBookNames.length,
             itemBuilder: (context, index) {
               return Row(
@@ -83,7 +88,7 @@ class _CollectionsState extends State<Collections> {
                 ],
               );
             },
-          )
-        : Center(child: CircularProgressIndicator());
+          );
+    //: Center(child: CircularProgressIndicator());
   }
 }

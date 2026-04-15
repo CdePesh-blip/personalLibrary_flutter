@@ -167,6 +167,10 @@ class _LoginScreenState extends State<LoginScreen> {
                       }
                     }
                   },
+                  child: Text(
+                    "log in",
+                    style: TextStyle(fontSize: 10, color: Colors.black12),
+                  ),
                 ), // we must specify what this butoon does when it is pressed. () for no name
                 Container(
                   height: 50,
@@ -185,6 +189,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     },
                   ),
                 ),
+
                 Padding(
                   padding: const EdgeInsets.fromLTRB(10, 5, 10, 0),
                   child: Row(

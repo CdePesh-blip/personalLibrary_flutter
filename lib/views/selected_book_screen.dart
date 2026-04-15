@@ -97,7 +97,7 @@ class SelectedBookScreen extends StatelessWidget {
                 Padding(
                   padding: EdgeInsets.only(top: 24, left: 25),
                   child: Text(
-                    popularNewBookModel.title,
+                    popularNewBookModel.fullname,
                     style: GoogleFonts.openSans(
                       fontSize: 27,
                       color: Colors.black,
@@ -168,14 +168,49 @@ class SelectedBookScreen extends StatelessWidget {
                       tabs: [
                         Tab(
                           child: Container(
-                            margin: EdgeInsets.only(right: 39),
-                            child: Text('Description'),
+                            padding: const EdgeInsets.all(20),
+                            child: SingleChildScrollView(
+                              child: Text(
+                                popularNewBookModel.description,
+                                style: GoogleFonts.openSans(
+                                  fontSize: 14,
+                                  color: Colors.grey[800],
+                                  height: 1.6,
+                                ),
+                              ),
+                              // margin: EdgeInsets.only(right: 39),
+                              // child: Text(
+                              //   'description',
+                              //   style: GoogleFonts.openSans(
+                              //     fontSize: 14,
+                              //     color: Colors.grey,
+                              //   ),
+                            ),
                           ),
                         ),
                         Tab(
                           child: Container(
-                            margin: EdgeInsets.only(right: 39),
-                            child: Text('Reviews'),
+                            child: ListView(
+                              padding: EdgeInsets.all(20),
+                              children: [
+                                ListTile(
+                                  leading: CircleAvatar(
+                                    child: Icon(Icons.person),
+                                  ),
+                                  title: Text(
+                                    "User Review",
+                                    style: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                  subtitle: Text(
+                                    "The Alchemist is an enchanting novel that takes you on a transformative journey that will have you questioning life, our purpose, and our place in the world.Not only that, but the philosophical messages remind us of the power of dreams, the importance of self-discovery, and the remarkable possibilities that lie beyond our comfort zones. ",
+                                  ),
+                                ),
+                              ],
+                            ),
+                            // margin: EdgeInsets.only(right: 39),
+                            // child: Text('Reviews'),
                           ),
                         ),
                         Tab(
