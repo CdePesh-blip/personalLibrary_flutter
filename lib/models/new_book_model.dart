@@ -20,7 +20,7 @@ class NewBookModel {
 
   factory NewBookModel.fromJson(Map<String, dynamic> json) {
     return NewBookModel(
-      fullname: json['title'] ?? "No Title",
+      fullname: json['fullname'] ?? "No Title",
       image: json['image'] ?? "",
       author: json['author'] ?? "Unknown",
       description: json['description'] ?? "No description provided.",

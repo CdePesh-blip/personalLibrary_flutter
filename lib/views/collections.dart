@@ -1,18 +1,11 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:get/get_navigation/src/extension_navigation.dart';
 import 'package:http/http.dart' as http;
 import 'package:personal_library/models/collection_model.dart';
-//import 'package:personal_library/models/collection_model.dart';
-
-var myBookNames = [
-  //CollectionModel("Holy Spirit my Senior Patner", "David Yonggi", image: "assets/images/Holy Spirit my senior Partner.jpg"),
-  //CollectionModel("Obvious Adams", "Robert Updegraff", image: "assets/images/Obvious Adams.jpg"),
-];
-
-bool loaded = false;
 
 class Collections extends StatefulWidget {
   const Collections({super.key});
@@ -22,6 +15,12 @@ class Collections extends StatefulWidget {
 }
 
 class _CollectionsState extends State<Collections> {
+  var myBookNames = [
+    //CollectionModel("Holy Spirit my Senior Patner", "David Yonggi", image: "assets/images/Holy Spirit my senior Partner.jpg"),
+    //CollectionModel("Obvious Adams", "Robert Updegraff", image: "assets/images/Obvious Adams.jpg"),
+  ];
+
+  bool loaded = false;
   @override
   void initState() {
     fetchBooks();
@@ -31,8 +30,12 @@ class _CollectionsState extends State<Collections> {
   void fetchBooks() async {
     try {
       var response = await http.get(
-        Uri.parse("http://localhost/library_api/read_books.php"),
+        Uri.parse("http://10.7.18.6/library_api/read_books.php"),
       );
+
+      print("STATUS CODE: ${response.statusCode}");
+      print("RAW RESPONSE: ${response.body}");
+
       if (response.statusCode == 200) {
         var serverData = jsonDecode(response.body);
         var bookData = serverData["data"];
@@ -71,21 +74,57 @@ class _CollectionsState extends State<Collections> {
         : ListView.builder(
             itemCount: myBookNames.length,
             itemBuilder: (context, index) {
-              return Row(
-                children: [
-                  Image.network(
-                    "http://10.0.2.2/library_api/Book_images/" +
-                        myBookNames[index].image,
-                    width: 100,
-                    height: 100,
-                  ),
-                  Column(
-                    children: [
-                      Text(myBookNames[index].name),
-                      Text(myBookNames[index].author),
-                    ],
-                  ),
-                ],
+              //child:
+              SvgPicture.asset('assets/svg/arrow-big-left.svg');
+
+              return Container(
+                height: 150,
+                margin: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                padding: EdgeInsets.all(8),
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(10),
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.black12,
+                      blurRadius: 4,
+                      offset: Offset(0, 2),
+                    ),
+                  ],
+                ),
+                child: Row(
+                  children: [
+                    Image.network(
+                      "http://10.7.18.6/library_api/Book_images/" +
+                          myBookNames[index].image,
+                      width: 100,
+                      height: 100,
+                      fit: BoxFit.cover,
+                      errorBuilder: (context, error, stackTrace) {
+                        return Icon(Icons.book, size: 90);
+                      },
+                    ),
+                    Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            myBookNames[index].fullname,
+                            style: TextStyle(
+                              fontSize: 16,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                          SizedBox(height: 5),
+                          Text(
+                            myBookNames[index].author,
+                            style: TextStyle(fontSize: 10, color: Colors.grey),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
               );
             },
           );

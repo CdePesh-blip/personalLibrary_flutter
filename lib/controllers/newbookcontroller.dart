@@ -1,5 +1,5 @@
 import 'dart:convert';
-import 'dart:ui';
+//import 'dart:ui';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 import 'package:personal_library/models/new_book_model.dart';
@@ -11,6 +11,10 @@ class NewBookController extends GetxController {
   var populars = <NewBookModel>[].obs;
   var isLoading = true.obs;
 
+  var allBooks = <NewBookModel>[].obs;
+  var filteredBooks = <NewBookModel>[].obs;
+  var searchQuery = ''.obs;
+
   @override
   void onInit() {
     fetchNewBooks();
@@ -18,11 +22,27 @@ class NewBookController extends GetxController {
     super.onInit();
   }
 
+  void filterBooks(String query) {
+    searchQuery.value = query;
+    if (query.isEmpty) {
+      filteredBooks.assignAll(allBooks);
+    } else {
+      filteredBooks.assignAll(
+        allBooks
+            .where(
+              (book) =>
+                  book.fullname.toLowerCase().contains(query.toLowerCase()),
+            )
+            .toList(),
+      );
+    }
+  }
+
   void fetchNewBooks() async {
     try {
       isLoading(true);
       var response = await http.get(
-        Uri.parse("http://localhost/library_api/read_books.php"),
+        Uri.parse("http://10.7.18.6/library_api/read_books.php"),
       );
       if (response.statusCode == 200) {
         var serverData = jsonDecode(response.body);
@@ -34,7 +54,7 @@ class NewBookController extends GetxController {
             .toList();
 
         inProgressBooks.value = bookData
-            .where((book) => book["status"] == "in progress")
+            .where((book) => book["status"] == "in_progress")
             .map((book) => NewBookModel.fromJson(book))
             .toList();
 
@@ -42,6 +62,11 @@ class NewBookController extends GetxController {
             .where((book) => book["status"] == "read")
             .map((book) => NewBookModel.fromJson(book))
             .toList();
+
+        allBooks.assignAll(
+          bookData.map((book) => NewBookModel.fromJson(book)).toList(),
+        );
+        filteredBooks.assignAll(allBooks);
         print("Loaded ${newBooks.length} new books");
         print("Loaded ${inProgressBooks.length} in progress books");
         print("Loaded ${readBooks.length} read books");
@@ -63,7 +88,7 @@ class NewBookController extends GetxController {
   void fetchPopularBooks() async {
     try {
       var response = await http.get(
-        Uri.parse("http://localhost/library_api/read_books.php"),
+        Uri.parse("http://10.7.18.6/library_api/read_books.php"),
       );
       if (response.statusCode == 200) {
         var serverData = jsonDecode(response.body);

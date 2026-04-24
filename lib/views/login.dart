@@ -1,7 +1,6 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
-import 'package:get/get_core/src/get_main.dart';
 import 'package:get/get_instance/src/extension_instance.dart';
 import 'package:get/get_navigation/src/extension_navigation.dart';
 import 'package:get/state_manager.dart';
@@ -9,11 +8,10 @@ import 'package:personal_library/configs/colors.dart';
 import 'package:personal_library/controllers/logincontroller.dart';
 
 import 'package:http/http.dart' as http;
-import 'package:personal_library/views/signup.dart';
 
 Logincontroller logincontroller = Get.put(Logincontroller());
-TextEditingController username = TextEditingController();
-TextEditingController password = TextEditingController();
+TextEditingController emailController = TextEditingController();
+TextEditingController passwordController = TextEditingController();
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -79,7 +77,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   ),
                 ),
                 TextField(
-                  controller: email,
+                  controller: emailController,
                   decoration: InputDecoration(
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(20),
@@ -112,7 +110,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 SizedBox(height: 10),
                 Obx(
                   () => TextField(
-                    controller: password,
+                    controller: passwordController,
                     obscureText: !logincontroller.isPasswordVisible.value,
                     decoration: InputDecoration(
                       border: OutlineInputBorder(
@@ -134,62 +132,50 @@ class _LoginScreenState extends State<LoginScreen> {
                   ),
                 ),
 
-                SizedBox(height: 30),
-                MaterialButton(
-                  onPressed: () async {
-                    if (username.text.isEmpty) {
-                      Get.snackbar("Error", "Enter username");
-                    } else if (password.text.isEmpty) {
-                      Get.snackbar("Error", "Enter password");
-                    } else {
-                      final response = await http.get(
-                        Uri.parse(
-                          "http://10.0.2.2/library_api/login.php?phone=${username.text}&password=${password.text}",
-                        ),
-                      );
-                      if (response.statusCode == 200) {
+                SizedBox(
+                  height: 50,
+                  width: double.infinity,
+                  child: ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: AppColors.primaryColor3,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadiusGeometry.circular(20),
+                      ),
+                    ),
+
+                    onPressed: () async {
+                      print("Button tapped!");
+                      print("Email: ${emailController.text}");
+                      try {
+                        final url =
+                            "http://10.7.18.6/library_api/login.php?email=${emailController.text}&password=${passwordController.text}";
+                        print("Calling: $url");
+                        final response = await http.get(Uri.parse(url));
+                        print("Status: ${response.statusCode}");
+                        print("Body: ${response.body}");
                         final serverData = jsonDecode(response.body);
                         if (serverData['code'] == 1) {
-                          String phone = serverData["userdetails"][0]["phone"];
-                          print(phone); //store in shared preferences
-                          Get.toNamed('/homescreen');
+                          Get.offAndToNamed('/homescreen');
                         } else {
                           Get.snackbar(
                             "Wrong Credentials",
-                            serverData["message"],
+                            serverData["message"] ?? "Invalid",
                           );
                         }
-                      } else {
-                        Get.snackbar(
-                          "Server Error",
-                          "Error occured while logging in",
-                        );
+                      } catch (e) {
+                        print("ERROR: $e");
+                        Get.snackbar("Error", e.toString());
                       }
-                    }
-                  },
-                  child: Text(
-                    "log in",
-                    style: TextStyle(fontSize: 10, color: Colors.black12),
-                  ),
-                ), // we must specify what this butoon does when it is pressed. () for no name
-                Container(
-                  height: 50,
-                  alignment: Alignment.center,
-                  decoration: BoxDecoration(
-                    color: AppColors.primaryColor3,
-                    borderRadius: BorderRadius.circular(20),
-                  ),
-                  child: GestureDetector(
-                    child: Text(
-                      "Login",
-                      style: TextStyle(color: Colors.white, fontSize: 15),
-                    ),
-                    onTap: () {
-                      Get.offAndToNamed("/homescreen");
                     },
+                    child: Text(
+                      "log in",
+                      style: TextStyle(fontSize: 15, color: Colors.black),
+                    ),
                   ),
                 ),
 
+                // we must specify what this butoon does when it is pressed. () for no name
+                SizedBox(height: 5),
                 Padding(
                   padding: const EdgeInsets.fromLTRB(10, 5, 10, 0),
                   child: Row(

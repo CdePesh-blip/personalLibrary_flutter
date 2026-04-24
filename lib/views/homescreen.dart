@@ -64,6 +64,7 @@ class _HomescreenState extends State<Homescreen> {
                   child: Stack(
                     children: <Widget>[
                       TextField(
+                        onChanged: (value) => controller.filterBooks(value),
                         maxLengthEnforcement:
                             MaxLengthEnforcement.truncateAfterCompositionEnds,
                         style: GoogleFonts.openSans(
@@ -177,7 +178,7 @@ class _HomescreenState extends State<Homescreen> {
                                   color: Colors.black12,
                                   image: DecorationImage(
                                     image: NetworkImage(
-                                      "http://localhost/library_api/Book_images/" +
+                                      "http://10.7.18.6/library_api/Book_images/" +
                                           book.image,
                                     ),
                                     fit: BoxFit.cover,
@@ -213,7 +214,7 @@ class _HomescreenState extends State<Homescreen> {
                                   color: Colors.black12,
                                   image: DecorationImage(
                                     image: NetworkImage(
-                                      "http://localhost/library_api/Book_images/" +
+                                      "http://10.7.18.6/library_api/Book_images/" +
                                           book.image,
                                     ),
                                     fit: BoxFit.cover,
@@ -249,7 +250,7 @@ class _HomescreenState extends State<Homescreen> {
                                   color: Colors.black12,
                                   image: DecorationImage(
                                     image: NetworkImage(
-                                      "http://localhost/library_api/Book_images/" +
+                                      "http://10.7.18.6/library_api/Book_images/" +
                                           book.image,
                                     ),
                                     fit: BoxFit.cover,
@@ -275,77 +276,113 @@ class _HomescreenState extends State<Homescreen> {
                   ),
                 ),
                 Obx(() {
-                  return ListView.builder(
-                    padding: EdgeInsets.only(top: 25, left: 25, right: 25),
-                    physics: BouncingScrollPhysics(),
-                    shrinkWrap: true,
-                    itemCount: controller.populars.length,
-                    itemBuilder: (context, index) {
-                      var book = controller.populars[index];
-                      return GestureDetector(
-                        onTap: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => SelectedBookScreen(
-                                key: UniqueKey(),
-                                popularNewBookModel: book,
+                  // If user is searching, show filtered results instead
+                  final isSearching = controller.searchQuery.value.isNotEmpty;
+                  final booksToShow = isSearching
+                      ? controller.filteredBooks
+                      : controller.populars;
+
+                  return Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      // Show "Search Results" title when searching
+                      if (isSearching)
+                        Padding(
+                          padding: EdgeInsets.only(
+                            left: 25,
+                            top: 10,
+                            bottom: 5,
+                          ),
+                          child: Text(
+                            'Search Results (${booksToShow.length})',
+                            style: GoogleFonts.openSans(
+                              fontSize: 16,
+                              fontWeight: FontWeight.w600,
+                              color: Colors.grey,
+                            ),
+                          ),
+                        ),
+                      if (booksToShow.isEmpty)
+                        Padding(
+                          padding: EdgeInsets.only(left: 25, top: 20),
+                          child: Text(
+                            'No books found.',
+                            style: GoogleFonts.openSans(color: Colors.grey),
+                          ),
+                        ),
+                      ListView.builder(
+                        padding: EdgeInsets.only(top: 25, left: 25, right: 25),
+                        physics: BouncingScrollPhysics(),
+                        shrinkWrap: true,
+                        itemCount: booksToShow.length,
+                        itemBuilder: (context, index) {
+                          var book = booksToShow[index];
+                          return GestureDetector(
+                            onTap: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => SelectedBookScreen(
+                                    key: UniqueKey(),
+                                    popularNewBookModel: book,
+                                  ),
+                                ),
+                              );
+                            },
+                            child: Container(
+                              margin: EdgeInsets.only(bottom: 18),
+                              height: 81,
+                              width: MediaQuery.of(context).size.width - 50,
+                              color: Colors.white,
+                              child: Row(
+                                children: <Widget>[
+                                  Container(
+                                    height: 81,
+                                    width: 62,
+                                    decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(5),
+                                      image: DecorationImage(
+                                        image: NetworkImage(
+                                          "http://10.7.18.6/library_api/Book_images/" +
+                                              book.image,
+                                        ),
+                                        fit: BoxFit.cover,
+                                      ),
+                                      color: Colors.black,
+                                    ),
+                                  ),
+                                  SizedBox(width: 21),
+                                  Column(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Text(
+                                        book.fullname,
+                                        style: GoogleFonts.openSans(
+                                          fontSize: 16,
+                                          fontWeight: FontWeight.w600,
+                                          color: Colors.black,
+                                        ),
+                                      ),
+                                      SizedBox(height: 5),
+                                      Text(
+                                        book.author,
+                                        style: GoogleFonts.openSans(
+                                          fontSize: 10,
+                                          fontWeight: FontWeight.w400,
+                                          color: Colors.grey,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ],
                               ),
                             ),
                           );
                         },
-                        child: Container(
-                          margin: EdgeInsets.only(bottom: 18),
-                          height: 81,
-                          width: MediaQuery.of(context).size.width - 50,
-                          color: Colors.white,
-                          child: Row(
-                            children: <Widget>[
-                              Container(
-                                height: 81,
-                                width: 62,
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(5),
-                                  image: DecorationImage(
-                                    image: NetworkImage(
-                                      "http://localhost/library_api/Book_images/" +
-                                          book.image,
-                                    ),
-                                    fit: BoxFit.cover,
-                                  ),
-                                  color: Colors.black,
-                                ),
-                              ),
-                              SizedBox(width: 21),
-                              Column(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text(
-                                    book.fullname,
-                                    style: GoogleFonts.openSans(
-                                      fontSize: 16,
-                                      fontWeight: FontWeight.w600,
-                                      color: Colors.black,
-                                    ),
-                                  ),
-                                  SizedBox(height: 5),
-                                  Text(
-                                    book.author,
-                                    style: GoogleFonts.openSans(
-                                      fontSize: 10,
-                                      fontWeight: FontWeight.w400,
-                                      color: Colors.grey,
-                                    ),
-                                  ),
-                                  SizedBox(height: 5),
-                                ],
-                              ),
-                            ],
-                          ),
-                        ),
-                      );
-                    },
+                      ),
+                    ],
                   );
                 }),
               ],
