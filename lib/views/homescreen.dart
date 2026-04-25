@@ -178,7 +178,7 @@ class _HomescreenState extends State<Homescreen> {
                                   color: Colors.black12,
                                   image: DecorationImage(
                                     image: NetworkImage(
-                                      "http://10.7.18.6/library_api/Book_images/" +
+                                      "http://10.7.13.20/library_api/Book_images/" +
                                           book.image,
                                     ),
                                     fit: BoxFit.cover,
@@ -214,7 +214,7 @@ class _HomescreenState extends State<Homescreen> {
                                   color: Colors.black12,
                                   image: DecorationImage(
                                     image: NetworkImage(
-                                      "http://10.7.18.6/library_api/Book_images/" +
+                                      "http://10.7.13.20/library_api/Book_images/" +
                                           book.image,
                                     ),
                                     fit: BoxFit.cover,
@@ -250,7 +250,7 @@ class _HomescreenState extends State<Homescreen> {
                                   color: Colors.black12,
                                   image: DecorationImage(
                                     image: NetworkImage(
-                                      "http://10.7.18.6/library_api/Book_images/" +
+                                      "http://10.7.13.20/library_api/Book_images/" +
                                           book.image,
                                     ),
                                     fit: BoxFit.cover,
@@ -343,7 +343,7 @@ class _HomescreenState extends State<Homescreen> {
                                       borderRadius: BorderRadius.circular(5),
                                       image: DecorationImage(
                                         image: NetworkImage(
-                                          "http://10.7.18.6/library_api/Book_images/" +
+                                          "http://10.7.13.20/library_api/Book_images/" +
                                               book.image,
                                         ),
                                         fit: BoxFit.cover,

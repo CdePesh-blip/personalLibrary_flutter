@@ -17,8 +17,7 @@ class NewBookController extends GetxController {
 
   @override
   void onInit() {
-    fetchNewBooks();
-    fetchPopularBooks();
+    fetchAllBooks();
     super.onInit();
   }
 
@@ -38,73 +37,43 @@ class NewBookController extends GetxController {
     }
   }
 
-  void fetchNewBooks() async {
+  void fetchAllBooks() async {
     try {
       isLoading(true);
       var response = await http.get(
-        Uri.parse("http://10.7.18.6/library_api/read_books.php"),
+        Uri.parse("http://10.7.13.20/library_api/read_books.php"),
       );
       if (response.statusCode == 200) {
         var serverData = jsonDecode(response.body);
         var bookData = serverData["data"] as List;
 
         newBooks.value = bookData
-            .where((book) => book["status"] == "new")
-            .map((book) => NewBookModel.fromJson(book))
+            .where((b) => b["status"] == "new")
+            .map((b) => NewBookModel.fromJson(b))
             .toList();
-
         inProgressBooks.value = bookData
-            .where((book) => book["status"] == "in_progress")
-            .map((book) => NewBookModel.fromJson(book))
+            .where((b) => b["status"] == "in_progress")
+            .map((b) => NewBookModel.fromJson(b))
             .toList();
-
         readBooks.value = bookData
-            .where((book) => book["status"] == "read")
-            .map((book) => NewBookModel.fromJson(book))
+            .where((b) => b["status"] == "read")
+            .map((b) => NewBookModel.fromJson(b))
             .toList();
-
+        populars.value = bookData
+            .where((b) => b["status"] == "popular")
+            .map((b) => NewBookModel.fromJson(b))
+            .toList();
         allBooks.assignAll(
-          bookData.map((book) => NewBookModel.fromJson(book)).toList(),
+          bookData.map((b) => NewBookModel.fromJson(b)).toList(),
         );
         filteredBooks.assignAll(allBooks);
-        print("Loaded ${newBooks.length} new books");
-        print("Loaded ${inProgressBooks.length} in progress books");
-        print("Loaded ${readBooks.length} read books");
       } else {
-        print("Failed to load books. Status: ${response.statusCode}");
-        Get.snackbar(
-          "Error",
-          "Failed to load new books: ${response.statusCode}",
-        );
+        Get.snackbar("Error", "Failed to load books: ${response.statusCode}");
       }
     } catch (e) {
-      print("Fetch error: $e");
       Get.snackbar("Error", "Error: $e");
     } finally {
       isLoading(false);
-    }
-  }
-
-  void fetchPopularBooks() async {
-    try {
-      var response = await http.get(
-        Uri.parse("http://10.7.18.6/library_api/read_books.php"),
-      );
-      if (response.statusCode == 200) {
-        var serverData = jsonDecode(response.body);
-        var bookData = serverData["data"] as List;
-
-        populars.value = bookData
-            .where((book) => book["status"] == "popular") // 1. Filter first
-            .map(
-              (book) => NewBookModel.fromJson(book),
-            ) // 2. Use factory to create model
-            .toList();
-
-        print("Loaded ${populars.length} popular books");
-      }
-    } catch (e) {
-      print("Error fetching popular books: $e");
     }
   }
 }

@@ -242,7 +242,7 @@ class _SignupScreenState extends State<SignupScreen> {
                       } else {
                         final response = await http.get(
                           Uri.parse(
-                            "http://10.7.18.6/library_api/signup.php?fullname=${fullname.text}&email=${email.text}&password=${password.text}&title=${title.text}&phone=${phone.text}",
+                            "http://10.7.13.20/library_api/signup.php?fullname=${fullname.text}&email=${email.text}&password=${password.text}&title=${title.text}&phone=${phone.text}",
                           ),
                         );
                         if (response.statusCode == 200) {

@@ -7,7 +7,8 @@ class NewBookModel {
   final String author;
   final String description;
   final String price;
-  final Color color;
+  //final Color color;
+  final String status;
 
   NewBookModel({
     required this.fullname,
@@ -15,7 +16,8 @@ class NewBookModel {
     required this.author,
     required this.description,
     required this.price,
-    required this.color,
+    //required this.color,
+    required this.status,
   });
 
   factory NewBookModel.fromJson(Map<String, dynamic> json) {
@@ -25,7 +27,8 @@ class NewBookModel {
       author: json['author'] ?? "Unknown",
       description: json['description'] ?? "No description provided.",
       price: json['price'] ?? "0.00",
-      color: Color(int.parse(json['color'] ?? "0xFFFFFFFF")),
+      //color: Color(int.parse(json['color'] ?? "0xFFFFFFFF")),
+      status: json['status'] ?? "new",
     );
   }
 }
