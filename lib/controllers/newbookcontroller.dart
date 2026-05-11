@@ -2,6 +2,7 @@ import 'dart:convert';
 //import 'dart:ui';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
+import 'package:personal_library/configs/constants.dart';
 import 'package:personal_library/models/new_book_model.dart';
 
 class NewBookController extends GetxController {
@@ -41,7 +42,7 @@ class NewBookController extends GetxController {
     try {
       isLoading(true);
       var response = await http.get(
-        Uri.parse("http://10.7.13.20/library_api/read_books.php"),
+        Uri.parse("${AppConstants.apiUrl}/read_books.php"),
       );
       if (response.statusCode == 200) {
         var serverData = jsonDecode(response.body);

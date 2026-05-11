@@ -5,6 +5,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:get/get_navigation/src/extension_navigation.dart';
 import 'package:http/http.dart' as http;
+import 'package:personal_library/configs/constants.dart';
 import 'package:personal_library/models/collection_model.dart';
 
 class Collections extends StatefulWidget {
@@ -30,7 +31,7 @@ class _CollectionsState extends State<Collections> {
   void fetchBooks() async {
     try {
       var response = await http.get(
-        Uri.parse("http://10.7.13.20/library_api/read_books.php"),
+        Uri.parse("${AppConstants.apiUrl}/read_books.php"),
       );
 
       print("STATUS CODE: ${response.statusCode}");
@@ -95,8 +96,7 @@ class _CollectionsState extends State<Collections> {
                 child: Row(
                   children: [
                     Image.network(
-                      "http://10.7.13.20/library_api/Book_images/" +
-                          myBookNames[index].image,
+                      AppConstants.imageUrl + myBookNames[index].image,
                       width: 100,
                       height: 100,
                       fit: BoxFit.cover,

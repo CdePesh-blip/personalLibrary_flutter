@@ -5,6 +5,8 @@ class Logincontroller extends GetxController {
   late String username;
   late String password;
   var isPasswordVisible = false.obs; // obs to observe the change
+  var userId = ''.obs;
+  var userEmail = ''.obs;
 
   bool login(String user, String pass) {
     username = user;

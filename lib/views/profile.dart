@@ -6,91 +6,96 @@ class ProfileScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: AppColors.brownColor, // Dark earthy background
-      body: SafeArea(
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 25.0),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              const SizedBox(height: 20),
-              const Text(
-                'Profile',
-                style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 28,
-                  fontWeight: FontWeight.bold,
+      body: SizedBox(
+        width: 400,
+        child: SafeArea(
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 25.0),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                const SizedBox(height: 20),
+                const Text(
+                  'Profile',
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 28,
+                    fontWeight: FontWeight.bold,
+                  ),
                 ),
-              ),
-              const SizedBox(height: 30),
-              // The Profile Card
-              Container(
-                width: double.infinity,
-                padding: const EdgeInsets.all(20),
-                decoration: BoxDecoration(
-                  color: Colors.white.withOpacity(0.05), // Subtle glass effect
-                  borderRadius: BorderRadius.circular(30),
-                  border: Border.all(color: Colors.white10),
-                ),
-                child: Column(
-                  children: [
-                    const Align(
-                      alignment: Alignment.topRight,
-                      child: Icon(Icons.settings, color: Color(0xFFB0926A)),
-                    ),
-                    const CircleAvatar(
-                      radius: 60,
-                      backgroundImage: AssetImage(
-                        'assets/images/oilpaint profile   .jpg',
+                const SizedBox(height: 30),
+                // The Profile Card
+                Container(
+                  width: double.infinity,
+                  padding: const EdgeInsets.all(20),
+                  decoration: BoxDecoration(
+                    color: Colors.white.withOpacity(
+                      0.05,
+                    ), // Subtle glass effect
+                    borderRadius: BorderRadius.circular(30),
+                    border: Border.all(color: Colors.white10),
+                  ),
+                  child: Column(
+                    children: [
+                      const Align(
+                        alignment: Alignment.topRight,
+                        child: Icon(Icons.settings, color: Color(0xFFB0926A)),
                       ),
-                    ),
-                    const SizedBox(height: 15),
-                    const Text(
-                      'Peshy',
-                      style: TextStyle(
-                        color: Colors.black,
-                        fontSize: 20,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                    const Text(
-                      'pshaly@gmail.com',
-                      style: TextStyle(color: Colors.grey, fontSize: 14),
-                    ),
-                    const SizedBox(height: 15),
-                    const Text(
-                      'About me:',
-                      style: TextStyle(color: Colors.black, fontSize: 14),
-                    ),
-                    const Text(
-                      'A fan of novels',
-                      style: TextStyle(color: Colors.grey, fontSize: 16),
-                    ),
-                    const SizedBox(height: 25),
-                    // Edit Profile Button
-                    SizedBox(
-                      width: double.infinity,
-                      height: 55,
-                      child: ElevatedButton(
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: const Color(0xFFB0926A),
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(20),
-                          ),
-                        ),
-                        onPressed: () {},
-                        child: const Text(
-                          'Edit profile',
-                          style: TextStyle(
-                            color: Color(0xFF694f27),
-                            fontSize: 18,
-                          ),
+                      const CircleAvatar(
+                        radius: 60,
+                        backgroundImage: AssetImage(
+                          'assets/images/oilpaint profile   .jpg',
                         ),
                       ),
-                    ),
-                  ],
+                      const SizedBox(height: 15),
+                      const Text(
+                        'Peshy',
+                        style: TextStyle(
+                          color: Colors.black,
+                          fontSize: 20,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      const Text(
+                        'pshaly@gmail.com',
+                        style: TextStyle(color: Colors.grey, fontSize: 14),
+                      ),
+                      const SizedBox(height: 15),
+                      const Text(
+                        'About me:',
+                        style: TextStyle(color: Colors.black, fontSize: 14),
+                      ),
+                      const Text(
+                        'A fan of novels',
+                        style: TextStyle(color: Colors.grey, fontSize: 16),
+                      ),
+                      const SizedBox(height: 25),
+                      // Edit Profile Button
+                      SizedBox(
+                        width: double.infinity,
+                        height: 55,
+                        child: ElevatedButton(
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: const Color(0xFFB0926A),
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(20),
+                            ),
+                          ),
+                          onPressed: () {},
+                          child: const Text(
+                            'Edit profile',
+                            style: TextStyle(
+                              color: Color(0xFF694f27),
+                              fontSize: 18,
+                            ),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
         ),
       ),

@@ -1,7 +1,5 @@
-import 'dart:ui';
-//import 'package:personal_library/configs/colors.dart';
-
 class NewBookModel {
+  final String id;
   final String fullname;
   final String image;
   final String author;
@@ -11,6 +9,7 @@ class NewBookModel {
   final String status;
 
   NewBookModel({
+    required this.id,
     required this.fullname,
     required this.image,
     required this.author,
@@ -22,6 +21,7 @@ class NewBookModel {
 
   factory NewBookModel.fromJson(Map<String, dynamic> json) {
     return NewBookModel(
+      id: json['id']?.toString() ?? "0",
       fullname: json['fullname'] ?? "No Title",
       image: json['image'] ?? "",
       author: json['author'] ?? "Unknown",

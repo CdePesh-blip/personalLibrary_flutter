@@ -1,6 +1,13 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
+import 'package:get/get_core/src/get_main.dart';
+import 'package:get/get_instance/src/extension_instance.dart';
+import 'package:get/get_navigation/src/extension_navigation.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:http/http.dart' as http;
+import 'package:personal_library/configs/constants.dart';
+import 'package:personal_library/controllers/logincontroller.dart';
 import 'package:personal_library/models/new_book_model.dart';
 
 class SelectedBookScreen extends StatelessWidget {
@@ -36,7 +43,26 @@ class SelectedBookScreen extends StatelessWidget {
           height: 49,
           color: Colors.black,
           child: ElevatedButton(
-            onPressed: () {},
+            onPressed: () async {
+              try {
+                final Logincontroller logincontroller = Get.find();
+                final response = await http.get(
+                  Uri.parse(
+                    "http://192.168.1.72/library_api/add_to_library.php?user_id=${logincontroller.userId.value}&book_id=${popularNewBookModel.id}",
+                  ),
+                );
+                if (response.statusCode == 200) {
+                  final serverData = jsonDecode(response.body);
+                  if (serverData['success'] == 1) {
+                    Get.snackbar("Success", "Book added to library! 📚");
+                  } else {
+                    Get.snackbar("Info", serverData['message']);
+                  }
+                }
+              } catch (e) {
+                Get.snackbar("Error", "Something went wrong: $e");
+              }
+            },
 
             style: ElevatedButton.styleFrom(
               backgroundColor: Colors.black,
@@ -65,6 +91,7 @@ class SelectedBookScreen extends StatelessWidget {
                     color: _getStatusColor(popularNewBookModel.status),
                     child: Stack(
                       children: <Widget>[
+                        /*
                         Positioned(
                           left: 25,
                           top: 35,
@@ -88,6 +115,7 @@ class SelectedBookScreen extends StatelessWidget {
                             ),
                           ),
                         ),
+                        */
                         Align(
                           alignment: Alignment.bottomCenter,
                           child: Container(
@@ -97,7 +125,7 @@ class SelectedBookScreen extends StatelessWidget {
                             decoration: BoxDecoration(
                               image: DecorationImage(
                                 image: NetworkImage(
-                                  "http://10.7.13.20/library_api/Book_images/" +
+                                  AppConstants.imageUrl +
                                       popularNewBookModel.image,
                                 ),
                                 fit: BoxFit.cover,

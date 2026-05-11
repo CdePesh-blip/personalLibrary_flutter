@@ -7,6 +7,7 @@ import 'package:get/get_navigation/src/extension_navigation.dart';
 import 'package:personal_library/configs/colors.dart';
 
 import 'package:http/http.dart' as http;
+import 'package:personal_library/configs/constants.dart';
 import 'package:personal_library/controllers/signupcontroller.dart';
 
 Signupcontroller signupController = Get.put(Signupcontroller());
@@ -29,14 +30,14 @@ class _SignupScreenState extends State<SignupScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: AppColors.homeBackground,
-      // appBar: AppBar(
-      //   backgroundColor: AppColors.primaryColor2,
-      //   title: Text(
-      //     "Sign in",
-      //     style: TextStyle(fontSize: 30, color: Colors.white),
-      //   ),
-      //   centerTitle: true,
-      // ),
+      appBar: AppBar(
+        backgroundColor: AppColors.primaryColor2,
+        title: Text(
+          "Sign in",
+          style: TextStyle(fontSize: 30, color: Colors.white),
+        ),
+        centerTitle: true,
+      ),
       body: Center(
         child: SizedBox(
           width: 400,
@@ -242,7 +243,7 @@ class _SignupScreenState extends State<SignupScreen> {
                       } else {
                         final response = await http.get(
                           Uri.parse(
-                            "http://10.7.13.20/library_api/signup.php?fullname=${fullname.text}&email=${email.text}&password=${password.text}&title=${title.text}&phone=${phone.text}",
+                            "${AppConstants.apiUrl}/signup.php?fullname=${fullname.text}&email=${email.text}&password=${password.text}&title=${title.text}&phone=${phone.text}",
                           ),
                         );
                         if (response.statusCode == 200) {

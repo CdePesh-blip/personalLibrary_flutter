@@ -5,6 +5,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:personal_library/configs/colors.dart';
+import 'package:personal_library/configs/constants.dart';
 import 'package:personal_library/controllers/newbookcontroller.dart';
 import 'package:personal_library/views/selected_book_screen.dart';
 import 'package:personal_library/widget/custom_type_indicator.dart';
@@ -178,8 +179,7 @@ class _HomescreenState extends State<Homescreen> {
                                   color: Colors.black12,
                                   image: DecorationImage(
                                     image: NetworkImage(
-                                      "http://10.7.13.20/library_api/Book_images/" +
-                                          book.image,
+                                      AppConstants.imageUrl + book.image,
                                     ),
                                     fit: BoxFit.cover,
                                   ),
@@ -214,8 +214,7 @@ class _HomescreenState extends State<Homescreen> {
                                   color: Colors.black12,
                                   image: DecorationImage(
                                     image: NetworkImage(
-                                      "http://10.7.13.20/library_api/Book_images/" +
-                                          book.image,
+                                      AppConstants.imageUrl + book.image,
                                     ),
                                     fit: BoxFit.cover,
                                   ),
@@ -250,8 +249,7 @@ class _HomescreenState extends State<Homescreen> {
                                   color: Colors.black12,
                                   image: DecorationImage(
                                     image: NetworkImage(
-                                      "http://10.7.13.20/library_api/Book_images/" +
-                                          book.image,
+                                      AppConstants.imageUrl + book.image,
                                     ),
                                     fit: BoxFit.cover,
                                   ),
@@ -335,6 +333,7 @@ class _HomescreenState extends State<Homescreen> {
                               width: MediaQuery.of(context).size.width - 50,
                               color: Colors.white,
                               child: Row(
+                                crossAxisAlignment: CrossAxisAlignment.center,
                                 children: <Widget>[
                                   Container(
                                     height: 81,
@@ -343,8 +342,7 @@ class _HomescreenState extends State<Homescreen> {
                                       borderRadius: BorderRadius.circular(5),
                                       image: DecorationImage(
                                         image: NetworkImage(
-                                          "http://10.7.13.20/library_api/Book_images/" +
-                                              book.image,
+                                          AppConstants.imageUrl + book.image,
                                         ),
                                         fit: BoxFit.cover,
                                       ),
@@ -352,29 +350,32 @@ class _HomescreenState extends State<Homescreen> {
                                     ),
                                   ),
                                   SizedBox(width: 21),
-                                  Column(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      Text(
-                                        book.fullname,
-                                        style: GoogleFonts.openSans(
-                                          fontSize: 16,
-                                          fontWeight: FontWeight.w600,
-                                          color: Colors.black,
+                                  Expanded(
+                                    child: Column(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        Text(
+                                          book.fullname,
+                                          style: GoogleFonts.openSans(
+                                            fontSize: 16,
+                                            fontWeight: FontWeight.w600,
+                                            color: Colors.black,
+                                          ),
                                         ),
-                                      ),
-                                      SizedBox(height: 5),
-                                      Text(
-                                        book.author,
-                                        style: GoogleFonts.openSans(
-                                          fontSize: 10,
-                                          fontWeight: FontWeight.w400,
-                                          color: Colors.grey,
+                                        SizedBox(height: 5),
+                                        Text(
+                                          book.author,
+                                          style: GoogleFonts.openSans(
+                                            fontSize: 10,
+                                            fontWeight: FontWeight.w400,
+                                            color: Colors.grey,
+                                          ),
                                         ),
-                                      ),
-                                    ],
+                                      ],
+                                    ),
                                   ),
                                 ],
                               ),

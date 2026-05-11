@@ -5,6 +5,7 @@ import 'package:get/get_instance/src/extension_instance.dart';
 import 'package:get/get_navigation/src/extension_navigation.dart';
 import 'package:get/state_manager.dart';
 import 'package:personal_library/configs/colors.dart';
+import 'package:personal_library/configs/constants.dart';
 import 'package:personal_library/controllers/logincontroller.dart';
 
 import 'package:http/http.dart' as http;
@@ -24,7 +25,7 @@ class _LoginScreenState extends State<LoginScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color(0xFF945c9c),
+      backgroundColor: Color(0xFFeb97f0),
       //backgroundColor: AppColors.loginBackground,
       /*appBar: AppBar(
           backgroundColor: Colors.pinkAccent,
@@ -45,9 +46,9 @@ class _LoginScreenState extends State<LoginScreen> {
                 begin: Alignment.topCenter,
                 end: Alignment.bottomCenter,
                 colors: [
-                  Color(0xFFefc6f5),
-                  Color(0xFFbb84c2),
-                  Color(0xFF945c9c),
+                  Color(0xFFe8bceb),
+                  Color(0xFFc483c7),
+                  Color(0xFFa767ab),
                 ],
               ),
             ),
@@ -77,6 +78,7 @@ class _LoginScreenState extends State<LoginScreen> {
                           Text(
                             "Enter username",
                             style: TextStyle(
+                              color: Colors.white,
                               fontSize: 15,
                               fontWeight: FontWeight.w700,
                             ),
@@ -108,6 +110,7 @@ class _LoginScreenState extends State<LoginScreen> {
                           Text(
                             "Enter Password",
                             style: TextStyle(
+                              color: Colors.white,
                               fontSize: 16,
                               fontWeight: FontWeight.w700,
                             ),
@@ -156,13 +159,18 @@ class _LoginScreenState extends State<LoginScreen> {
                           print("Email: ${emailController.text}");
                           try {
                             final url =
-                                "http://10.7.13.20/library_api/login.php?email=${emailController.text}&password=${passwordController.text}";
+                                "${AppConstants.apiUrl}/login.php?email=${emailController.text}&password=${passwordController.text}";
                             print("Calling: $url");
                             final response = await http.get(Uri.parse(url));
                             print("Status: ${response.statusCode}");
                             print("Body: ${response.body}");
                             final serverData = jsonDecode(response.body);
                             if (serverData['code'] == 1) {
+                              logincontroller.userId.value =
+                                  serverData["userdetails"][0]["id"].toString();
+                              logincontroller.userEmail.value =
+                                  serverData["userdetails"][0]["email"]
+                                      .toString();
                               Get.offAndToNamed('/homescreen');
                             } else {
                               Get.snackbar(
